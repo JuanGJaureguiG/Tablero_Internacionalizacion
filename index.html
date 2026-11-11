@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internacionalización · UNIMINUTO Sede Tolima-Huila</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="tag">UNIMINUTO · Sede Tolima-Huila</div>
+      <h1>Internacionalización</h1>
+      <div class="sub" id="brand-sub">Convenios, patrocinios y movilidad</div>
+    </div>
+    <!-- los grupos de filtros se generan desde app.js según la pestaña activa -->
+    <button class="clear-all" id="clear-all">Limpiar filtros de esta pestaña</button>
+    <div class="side-note" id="side-note"></div>
+  </aside>
+
+  <main class="main">
+    <div class="main-header">
+      <div>
+        <h2>Tablero de Internacionalización</h2>
+        <div class="desc">Convenios y redes con instituciones nacionales e internacionales, patrocinios y donaciones aplicados a estudiantes, y movilidad académica de la Sede Tolima-Huila.</div>
+      </div>
+      <div class="as-of" id="as-of"></div>
+    </div>
+
+    <nav class="tabs" id="tabs"></nav>
+    <div class="filter-summary" id="filter-summary"></div>
+    <div class="empty-state" id="empty-state" style="display:none">La selección de filtros no deja datos para mostrar. Ajusta los filtros o usa «Limpiar filtros de esta pestaña».</div>
+
+    <!-- ============ CONVENIOS Y REDES ============ -->
+    <section class="view" id="view-convenios">
+      <div class="kpi-row" id="kpi-conv"></div>
+      <div class="kpi-row second" id="kpi-conv2"></div>
+      <div class="grid">
+        <div class="panel">
+          <h3>Convenios vigentes por país</h3>
+          <div class="panel-sub">Los 15 países con más convenios en la selección</div>
+          <div class="chart-wrap tall"><canvas id="c-conv-pais"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Distribución por región</h3>
+          <div class="panel-sub">Convenios vigentes según la región del aliado</div>
+          <div class="chart-wrap tall"><canvas id="c-conv-region"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Alcance de la cooperación</h3>
+          <div class="panel-sub">Un convenio puede cubrir varias actividades · solo convenios que registran alcance</div>
+          <div class="chart-wrap"><canvas id="c-conv-alcance"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Calendario de vencimientos</h3>
+          <div class="panel-sub">Convenios vigentes según el año en que vencen</div>
+          <div class="chart-wrap"><canvas id="c-conv-venc"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Tipo de convenio y carácter del aliado</h3>
+          <div class="panel-sub">Barras apiladas: institución pública o privada</div>
+          <div class="chart-wrap"><canvas id="c-conv-tipo"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>¿Aplica para intercambios de larga estancia en posgrado?</h3>
+          <div class="panel-sub">Según lo registrado en el consolidado</div>
+          <div class="chart-wrap"><canvas id="c-conv-larga"></canvas></div>
+        </div>
+        <div class="panel full">
+          <h3>Lectura rápida</h3>
+          <div class="panel-sub">Generada automáticamente con la selección actual</div>
+          <ul class="insights" id="ins-conv"></ul>
+        </div>
+        <div class="panel full">
+          <h3>Próximos vencimientos</h3>
+          <div class="panel-sub" id="t-prox-sub"></div>
+          <div class="table-wrap scroll" style="max-height:360px"><table id="t-prox"></table></div>
+        </div>
+        <div class="panel full">
+          <div class="panel-head">
+            <div><h3>Directorio de convenios vigentes</h3><div class="panel-sub">Haz clic en un encabezado para ordenar · busca por institución, país o ciudad</div></div>
+            <input class="search" id="q-conv" type="search" placeholder="Buscar institución, país o ciudad…">
+          </div>
+          <div class="table-wrap scroll"><table id="t-conv"></table></div>
+          <div class="count-line" id="t-conv-count"></div>
+        </div>
+      </div>
+
+      <div class="section-label">Gestión del portafolio <small>convenios en proceso de firma y convenios vencidos</small></div>
+      <div class="grid">
+        <div class="panel">
+          <h3>Convenios en proceso de firma</h3>
+          <div class="panel-sub">Hoja «En proceso» del consolidado</div>
+          <div class="table-wrap"><table id="t-proc"></table></div>
+        </div>
+        <div class="panel">
+          <h3>Convenios vencidos: motivo de no renovación</h3>
+          <div class="panel-sub" id="c-venc-sub">Histórico de la hoja «Vencidos»</div>
+          <div class="chart-wrap"><canvas id="c-conv-motivo"></canvas></div>
+        </div>
+      </div>
+
+      <div class="section-label">Redes y programas <small>afiliaciones académicas de UNIMINUTO</small></div>
+      <div class="kpi-row second" id="kpi-redes"></div>
+      <div class="grid">
+        <div class="panel">
+          <h3>Redes por área de conocimiento</h3>
+          <div class="panel-sub">Según la cobertura elegida en el filtro «Redes: cobertura»</div>
+          <div class="chart-wrap tall"><canvas id="c-redes-area"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Costo de afiliación</h3>
+          <div class="panel-sub">Redes gratuitas frente a redes con cuota o membresía</div>
+          <div class="chart-wrap tall"><canvas id="c-redes-costo"></canvas></div>
+        </div>
+        <div class="panel full">
+          <div class="panel-head">
+            <div><h3>Directorio de redes</h3><div class="panel-sub">Nombre, área, cobertura y costo</div></div>
+            <input class="search" id="q-redes" type="search" placeholder="Buscar red o área…">
+          </div>
+          <div class="table-wrap scroll"><table id="t-redes"></table></div>
+        </div>
+      </div>
+      <div class="panel"><h3>Notas de lectura</h3><ul class="notes" id="notes-conv"></ul></div>
+    </section>
+
+    <!-- ============ PATROCINIOS Y DONACIONES ============ -->
+    <section class="view" id="view-patrocinios">
+      <div class="kpi-row" id="kpi-pat"></div>
+      <div class="grid">
+        <div class="panel">
+          <h3>Valor aplicado por periodo</h3>
+          <div class="panel-sub">Millones de pesos · patrocinios y donaciones · total sobre cada barra</div>
+          <div class="chart-wrap"><canvas id="c-pat-valor"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Beneficios a estudiantes por periodo</h3>
+          <div class="panel-sub">Número de beneficios aplicados · total sobre cada barra</div>
+          <div class="chart-wrap"><canvas id="c-pat-est"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Valor aplicado por Centro Universitario</h3>
+          <div class="panel-sub">Millones de pesos · suma de los periodos seleccionados</div>
+          <div class="chart-wrap"><canvas id="c-pat-cu"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Origen de los recursos</h3>
+          <div class="panel-sub">Participación en el valor aplicado según el sector del aportante</div>
+          <div class="chart-wrap"><canvas id="c-pat-sector"></canvas></div>
+        </div>
+        <div class="panel full">
+          <h3>Principales aportantes</h3>
+          <div class="panel-sub">Millones de pesos · 12 entidades con mayor valor aplicado en la selección</div>
+          <div class="chart-wrap tall"><canvas id="c-pat-top"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Valor por modalidad de formación</h3>
+          <div class="panel-sub">Matrícula de pregrado, educación continua y técnico laboral</div>
+          <div class="chart-wrap"><canvas id="c-pat-mod"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Valor promedio por beneficio</h3>
+          <div class="panel-sub">Miles de pesos por estudiante beneficiado en cada periodo</div>
+          <div class="chart-wrap"><canvas id="c-pat-prom"></canvas></div>
+        </div>
+        <div class="panel full">
+          <h3>Lectura rápida</h3>
+          <div class="panel-sub">Generada automáticamente con la selección actual</div>
+          <ul class="insights" id="ins-pat"></ul>
+        </div>
+        <div class="panel full">
+          <h3>Mapa de calor: valor aplicado por centro y periodo</h3>
+          <div class="panel-sub">Millones de pesos · la intensidad del color es proporcional al valor</div>
+          <div class="table-wrap"><table id="t-pat-cu"></table></div>
+        </div>
+        <div class="panel full">
+          <div class="panel-head">
+            <div><h3>Detalle por entidad aportante</h3><div class="panel-sub">Valor en millones de pesos por periodo · haz clic en un encabezado para ordenar</div></div>
+            <input class="search" id="q-pat" type="search" placeholder="Buscar entidad…">
+          </div>
+          <div class="table-wrap scroll"><table id="t-pat"></table></div>
+        </div>
+      </div>
+      <div class="panel"><h3>Notas de lectura</h3><ul class="notes" id="notes-pat"></ul></div>
+    </section>
+
+    <!-- ============ MOVILIDAD ============ -->
+    <section class="view" id="view-movilidad">
+      <div class="callout" id="mov-callout" style="display:none"></div>
+      <div class="kpi-row" id="kpi-mov"></div>
+      <div class="grid">
+        <div class="panel">
+          <h3>Movilidades por periodo</h3>
+          <div class="panel-sub">Estudiantes frente a profesores y administrativos · total sobre cada barra</div>
+          <div class="chart-wrap"><canvas id="c-mov-per"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Movilidades por Centro Universitario</h3>
+          <div class="panel-sub">Barras apiladas por periodo</div>
+          <div class="chart-wrap"><canvas id="c-mov-cu"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Nacional frente a internacional</h3>
+          <div class="panel-sub">Porcentaje de las movilidades de cada periodo</div>
+          <div class="chart-wrap"><canvas id="c-mov-nal"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Entrante frente a saliente</h3>
+          <div class="panel-sub">Entrante: llegan a la sede · saliente: salen de la sede</div>
+          <div class="chart-wrap"><canvas id="c-mov-dir"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Tipos de movilidad estudiantil</h3>
+          <div class="panel-sub">Suma de los periodos seleccionados · internacional y nacional</div>
+          <div class="chart-wrap tall"><canvas id="c-mov-tipo-est"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>Tipos de movilidad de profesores y administrativos</h3>
+          <div class="panel-sub">Suma de los periodos seleccionados · entrante y saliente</div>
+          <div class="chart-wrap tall"><canvas id="c-mov-tipo-prof"></canvas></div>
+        </div>
+        <div class="panel full">
+          <h3>¿En qué meses ocurre la movilidad?</h3>
+          <div class="panel-sub">Mes de la fecha inicial de la movilidad · suma de los periodos seleccionados</div>
+          <div class="chart-wrap"><canvas id="c-mov-mes"></canvas></div>
+        </div>
+        <div class="panel full">
+          <h3>Lectura rápida</h3>
+          <div class="panel-sub">Generada automáticamente con la selección actual</div>
+          <ul class="insights" id="ins-mov"></ul>
+        </div>
+        <div class="panel full">
+          <h3>Mapa de calor: movilidades por centro y periodo</h3>
+          <div class="panel-sub">Estudiantes + profesores y administrativos según la población seleccionada</div>
+          <div class="table-wrap"><table id="t-mov-cu"></table></div>
+        </div>
+        <div class="panel full">
+          <h3>Detalle por tipo de movilidad</h3>
+          <div class="panel-sub">Número de movilidades por tipo y periodo · I = internacional</div>
+          <div class="table-wrap scroll"><table id="t-mov-tipo"></table></div>
+        </div>
+      </div>
+      <div class="panel"><h3>Notas de lectura</h3><ul class="notes" id="notes-mov"></ul></div>
+    </section>
+
+    <footer class="credit" id="credit"></footer>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
